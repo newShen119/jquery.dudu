@@ -1,0 +1,78 @@
+
+.slider {
+	position: relative;
+	overflow: hidden;
+	margin: 0 auto;
+}
+
+.slider-main {
+	position: absolute;
+	left: 0;
+}
+
+.slider .slider-item {
+	float: left;
+	overflow: hidden;
+}
+
+.slider .slider-item a{
+	display: block;
+}
+
+.slider .slider-item a img{
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+.slider .slider-pagination{
+	position: absolute;
+	bottom: 20px;
+	width: 200px;
+	bottom: 5px;
+	left: 0;
+	right: 0;
+	float: left;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.slider .slider-pagination li{
+	float: left;
+	width: 30px;
+	height: 20px;
+	margin-right: 10px;
+	line-height: 20px;
+	text-align: center;
+	cursor: pointer;
+	background: #666;
+	color: #fff }
+
+.slider .slider-pagination li.active{
+	background: blue;
+}
+
+.slider .slider-btn .prev,
+.slider .slider-btn .next{
+ 	position: absolute;
+ 	top: 50%;
+ 	width: 40px;
+ 	height: 60px;
+ 	margin-top: -30px;
+ 	line-height: 60px;
+ 	color: white;
+ 	text-align: center;
+ 	background: rgba(0,0,0,.4);
+}
+
+.slider .slider-btn .prev{
+	left: 0;
+}
+
+.slider .slider-btn .next{
+	right: 0;
+}
+
+.slider a{
+	display: block;
+}

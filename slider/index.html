@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>滚动轮播图插件</title>
+	<link rel="stylesheet" href="css/common.css"/>
+	<link rel="stylesheet" href="css/slider.css"/>
+</head>
+<body>
+	<div id="banner">
+		<div class="slider"></div>
+	</div>
+</body>
+<script src="libs/jquery-1.11.3.min.js"></script>
+<script src="js/jquery_slider.js"></script>
+<script type="text/javascript">
+
+	$('#banner .slider').eq(0).slider({
+		data: [
+			{
+				"aHref" : "javascript:;void(0)",
+				"imgSrc": "img/swiper01.jpg",
+			},{
+				"aHref" : "javascript:;void(0)",
+				"imgSrc": "img/swiper02.jpg",
+			},{
+				"aHref" : "javascript:;void(0)",
+				"imgSrc": "img/swiper03.jpg",
+			},{
+				"aHref" : "javascript:;void(0)",
+				"imgSrc": "img/swiper04.jpg",
+			},{
+				"aHref" : "javascript:;void(0)",
+				"imgSrc": "img/swiper05.jpg",
+			}
+		],
+	});
+	
+</script>
+</html>
