@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+
+		* {
+			margin: 0;
+			padding: 0;
+		}
+
+		a {
+			color: #666;
+			text-decoration: none;
+		}
+
+		li {
+			height: 30px;
+			line-height: 30px;
+		}
+
+		ul,li {
+			list-style: none;
+		}
+
+		#news {
+			width: 500px;
+			height: 60px;
+			margin: 50px 0 0 50px;
+			background: yellow;
+			overflow: hidden;
+		}
+
+		#news .news-list .news-item {
+			padding-left: 10px;
+		}
+		
+		#news .news-list .news-item:hover {
+			background: #ccc;
+		}
+
+		#news .news-list .news-item:hover a {
+			color: #fff;
+		}
+
+
+	</style>
+</head>
+<body>
+	<div id="news"></div>
+</body>
+<script src="jquery-1.8.3.min.js"></script>
+<script type="text/javascript">
+
+function NewsScroll(element,options){
+
+	this.element = $(element);
+	this.options = $.extend({}, NewsScroll.defaults, options);
+	this.init();
+
+};
+
+
+NewsScroll.defaults = {
+
+	newsListWidth: "100%", //news-list  宽度
+	newsListHeight: 50,    //news-list  高度 
+	newsItemHeight: 30,    //news-item  高度:每次滚动的距离
+	time: 3000,			   //滚动周期
+	speed: 400,            //滚动一次所花费的时间
+	data: [                //数据
+		{ 
+			"href": "www.baidu.com",
+			"cont": "1111111111111"
+		},{
+			"href": "www.sina.com",
+			"cont": "2222222222222"
+		},{
+			"href": "www.youku.com",
+			"cont": "333333333333"
+		},{
+			"href": "www.grovefun.com",
+			"cont": "4444444444444"
+		},{
+			"href": "www.tenxun.com",
+			"cont": "55555555555555"
+		}
+	],
+};
+
+
+NewsScroll.prototype.init = function(){
+
+	var _this = this,
+		time = this.options.time;
+	this.create();
+	this.timer = setInterval(function(){
+		_this.scroll();
+	},time)
+	this.hover();
+
+};
+
+
+NewsScroll.prototype.create = function(){
+
+	var data = this.options.data;
+	var aLi = '';
+	$.each(data, function(index,value){
+		aLi += '<li class="news-item"><a href='+value["href"]+'>'+value["cont"]+'</a></li>'
+	});
+	var ul = '<ul class="news-list">'+aLi+'</ul>';
+	this.element.append(ul);
+
+};
+
+
+NewsScroll.prototype.hover = function(){
+
+	var _this = this,
+		time = this.options.time,
+	 	newsList = this.element.find(".news-list");
+	newsList.hover(function(){
+		clearInterval( _this.timer );
+	},function(){
+		_this.timer = setInterval(function(){
+			_this.scroll();
+		},time)
+	});
+
+};
+
+
+NewsScroll.prototype.scroll = function(){
+
+	var speed = this.options.speed,
+		height = this.options.newsItemHeight,
+		newsList = this.element.find(".news-list");
+	newsList.animate({marginTop: -height}, 2000, function(){
+		$(this).css({marginTop: 0}).find(".news-item:first").appendTo(this);
+	});
+
+};
+
+$.fn.extend({
+	newsScroll: function(options){
+		return this.each(function(){
+			new NewsScroll(this,options);
+		})
+	},
+});
+
+$("#news").newsScroll();
+
+</script>
+</html>
