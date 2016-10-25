@@ -8,9 +8,9 @@ function Slider(element,options){
 
 
 Slider.defaults ={
-	width: 800,
-	height: 500,
-	speed: 800,     //播放持续时间
+	width: 800,     //轮播容器宽度
+	height: 500,	 //轮播容器高度
+	speed: 500,     //播放持续时间
 	time: 3000,     //播放间隔时间
 	autoplay: true, //是否设置自动播放
 	type: 'easing', //播放类型
@@ -39,7 +39,7 @@ Slider.prototype.init = function() {
 	this.index = 0;
 	this.timer = null;
 	this.create();
-	this.setData();
+	this.setCss();
 	this.bindHandle();
 }
 
@@ -60,7 +60,7 @@ Slider.prototype.create = function() {
 
 	this.element.append($(slider));
 	this.slider = this.element.find(".slider");
-	this
+	this.sliderWrap = this.slider.find(".slider-wraper");
 	this.sliderItem = this.slider.find(".slider-item");
 	this.sliderBtn = this.slider.find(".slider-btn");
 	this.btnPrev = this.sliderBtn.find(".slider-btn-prev");
@@ -70,71 +70,53 @@ Slider.prototype.create = function() {
 };
 
 
-Slider.prototype.setData = function() {
+Slider.prototype.setCss = function() {
 
-	this.slider.css({
-		width: this.options.width,
-		height: this.options.height,
-	});
+	var w = this.options.width,
+		h =  this.options.height;
+	this.slider.css({ width: w , height: h });
+	this.sliderItem.hide();
+	this.sliderItem.eq(this.index).show();
+	this.paginationItem.eq(this.index).css({ backgroundColor: "#b61b1f" });
 
-	this.sliderItem.css({
-		display: "none",
-	});
-
-	this.sliderItem.eq(this.index).css({
-		display: "block",
-	});
-
-	this.paginationItem.eq(this.index).css({
-		backgroundColor: "#b61b1f",
-	});
 };
 
 
 Slider.prototype.bindHandle = function() {
 
 	var _this = this;
+
 	this.slider.hover(function(){
-		_this.sliderBtn.css({
-			display: "block",
-		});
+		_this.sliderBtn.show();
 	},function(){
-		_this.sliderBtn.css({
-			display: "none",
-		});
+		_this.sliderBtn.hide();
 	});
 
 	this.btnNext.on('click', function() {
+		if( _this.sliderItem.is(":animated") ) return;
 		_this.index ++;
 		_this.index = _this.index  == _this.options.data.length ? 0 : _this.index;
 		_this.move();
 	});
 
 	this.btnPrev.on('click', function() {
+		if( _this.sliderItem.is(":animated") ) return;
 		_this.index --;
 		_this.index = _this.index  == -1 ? _this.options.data.length - 1 : _this.index;
 		_this.move();
 	});
+
 };
 
 
 Slider.prototype.move = function() {
 
-	var _this = this;
+	var _this = this,
+		speed = this.options.speed;
+	this.sliderItem.eq(this.index).fadeIn(speed).siblings().fadeOut(speed);
 
-	for( var i = 0; i < this.options.data.length; i++){
-		if( i != this.index){
-			this.sliderItem.eq(i).fadeOut(2000);
-		}
-	}
-	this.sliderItem.eq(this.index).fadeIn(2000);
-
-	this.paginationItem.css({
-		backgroundColor: "#3e3e3e",
-	})
-	this.paginationItem.eq(this.index).css({
-		backgroundColor: "#b61b1f",
-	});
+	this.paginationItem.css({ backgroundColor: "#3e3e3e" })
+	this.paginationItem.eq(this.index).css({ backgroundColor: "#b61b1f" });
 }
 
 
