@@ -98,7 +98,7 @@ NewsScroll.prototype.init = function(){
 	this.timer = setInterval(function(){
 		_this.scroll();
 	},time)
-	this.hover();
+	this.fnHover();
 
 };
 
@@ -116,7 +116,7 @@ NewsScroll.prototype.create = function(){
 };
 
 
-NewsScroll.prototype.hover = function(){
+NewsScroll.prototype.fnHover = function(){
 
 	var _this = this,
 		time = this.options.time,
@@ -137,10 +137,10 @@ NewsScroll.prototype.scroll = function(){
 	var speed = this.options.speed,
 		height = this.options.newsItemHeight,
 		newsList = this.element.find(".news-list");
-	newsList.animate({marginTop: -height}, 2000, function(){
+
+	newsList.animate({marginTop: -height}, 1500, function(){
 		$(this).css({marginTop: 0}).find(".news-item:first").appendTo(this);
 	});
-
 };
 
 $.fn.extend({
@@ -151,7 +151,9 @@ $.fn.extend({
 	},
 });
 
-$("#news").newsScroll();
+$("#news").newsScroll({
+	time: 2000
+});
 
 </script>
 </html>
