@@ -11,11 +11,13 @@
 
 	// define class Swiper
 	function Swiper(element,options) {
+
 		this.element = $(element);
 
 		this.options = $.extend({},Swiper.defaults,options);
 
 		this.init();
+
 	};
 
 
@@ -59,11 +61,16 @@
 	// set CSS after create them if the creating  exists
 	Swiper.prototype.setCss = function() {
 
-		this.oSwiperMain.css({
+		var w = parseInt(this.options.width),
+			h = this.options.height,
+			l = this.aSwiperPanel.length;
 
-			width: this.aSwiperPanel.length * parseInt(this.options.width),
+		this.oSwiper.css({ width: w , height: h });
 
-		});
+		this.aSwiperPanel.css({ width: w, height: h })
+
+		this.oSwiperMain.css({ width: l * w , height: h });
+
 	};
 
 
