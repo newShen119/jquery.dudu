@@ -2,33 +2,35 @@
  name: swiper.js
  author: gaoxiong
  email: 1056834607@qq.com
- version: 1.0 
+ version: 1.0
+ time : 2016-10-25
 */
 
 (function($){
 
 
-	//闭包限定命名空间
+	// define class Swiper
 	function Swiper(element,options) {
 		this.element = $(element);
-		//使用jQuery.extend 覆盖插件默认参数
+
 		this.options = $.extend({},Swiper.defaults,options);
-		//初始化
+
 		this.init();
 	};
 
 
-	//默认参数
+	// set defaults paramers
 	Swiper.defaults = {
 
 		width: 730,
 		height: 450,
-		time: 3000,
+		time: 1000,
 		speed: 500,
 		type: "easing",
 	};
 
 
+	// Swiper initiazition
 	Swiper.prototype.init = function() {
 
 		this.index1 = 0;
@@ -40,6 +42,7 @@
 	};
 
 
+	// get the Elements after create them if the creating  exists
 	Swiper.prototype.Elements = function() {
 
 		this.oSwiper = this.element.find(".swiper"),
@@ -53,6 +56,7 @@
 	};
 
 
+	// set CSS after create them if the creating  exists
 	Swiper.prototype.setCss = function() {
 
 		this.oSwiperMain.css({
@@ -63,6 +67,7 @@
 	};
 
 
+	// add the handle  after create them if the creating  exists 
 	Swiper.prototype.handle = function() {
 
 		var _this = this;
@@ -118,10 +123,20 @@
 			_this.index2 --;
 
 			_this.move();
-		})
+
+		});
+
+		this.aNavItem.on("click",function(){
+
+			_this.index1 = _this.index2 = $(this).index();
+
+			_this.move();
+
+		});
 	};
 
-
+	
+	// define the move regular 
 	Swiper.prototype.move = function() {
 
 		var _this = this;
@@ -154,6 +169,7 @@
 	};
 
 
+	// set style for the nav-item bottom of Swiper
 	Swiper.prototype.aNavItemAddClass = function() {
 
 		this.aNavItem.removeClass("active");
@@ -162,6 +178,7 @@
 	};
 
 
+	// define autoplay function if autoPlay is required 
 	Swiper.prototype.autoPlay = function() {
 
 		var _this = this;
@@ -171,8 +188,24 @@
 			_this.next.trigger("click")
 
 		},this.options.time);
+
+		this.oSwiper.hover(function(){
+
+			clearInterval(_this.timer);
+
+		},function(){
+
+			_this.timer = setInterval(function(){
+
+				_this.next.trigger("click")
+
+			},_this.options.time);
+
+		});
+
 	};
 
+	// add swiper to the jQuery prototype
 	$.fn.extend({
 		swiper: function(options){
 			return this.each(function(){
@@ -182,6 +215,7 @@
 	});
 
 })(window.jQuery);
+
 
 $(function(){
 	$("#banner").swiper();
