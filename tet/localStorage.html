@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	
+		#note {
+			margin: 20px 0;
+		}
+
+		#text-value {
+			display: block;
+			width: 300px;
+			height: 100px;
+			border: 1px red solid;
+		}
+
+		button {
+			margin-top: 20px;
+		}
+
+	</style>
+</head>
+<body>
+	<h2>留言板</h2>
+	<div id="note"></div>
+	<textarea id="text-value" cols="30" rows="10"></textarea>
+	<button id="clear">清除留言</button>
+	<button id="add">添加留言</button>
+	<button id="show">显示</button>
+</body>
+<script type="text/javascript">
+
+window.onload = function(){
+
+	// var show = document.getElementById("show");
+	var add = document.getElementById("add");
+	var textValue = document.getElementById("text-value");
+	var note = document.getElementById("note");
+	var clear = document.getElementById("clear");
+
+	function show () {
+		var value = localStorage.getItem("msg");
+		if( value && value != 'undefined' ) {
+			value = JSON.parse(value);
+			console.log(value);
+			note.innerText = value[0];
+			
+		} else {
+			note.innerHTML= "<ul><li>暂时没有留言哦！</li></ul>";
+		}
+	}
+	show () ;
+
+	function addInfo() {
+		var value = localStorage.getItem("msg");
+		if( value ) {
+			JSON.stringify(value);
+			console.log( typeof value);
+			value.push(textValue.value)
+			localStorage.setItem("msg", value);
+		} else {
+			
+			value = {};
+			value.keys = textValue.value;
+			var str = JSON.stringify(value);
+			localStorage.setItem("msg", str);
+			console.log(localStorage.msg);
+		}
+	};
+
+	add.onclick = function() {
+		addInfo();
+		show ();
+	};
+
+	//清除 msg
+	clear.onclick = function() {
+		localStorage.removeItem("msg");
+		show();
+	};
+};
+</script>
+</html>
